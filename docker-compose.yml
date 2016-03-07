@@ -1,0 +1,37 @@
+version: '2'
+services:
+  web:
+    image: genebarker/frontaccounting
+    links:
+    - db
+    depends_on:
+    - db
+    ports:
+    - "3080:80"
+    environment:
+    - MYSQL_PASSWORD=PZp6nT9y9Fano4vMJtmmGLxcY
+    - MYSQL_USER=fa
+    - MYSQL_DATABASE=fa
+    - MYSQL_HOST=database
+    command: ["/entrypoint.sh", "--http"]
+    networks:
+    - new
+      
+  db:
+    image: mysql:5.5
+    environment:
+    - MYSQL_PASSWORD=PZp6nT9y9Fano4vMJtmmGLxcY
+    - MYSQL_USER=fa
+    - MYSQL_DATABASE=fa
+    - MYSQL_RANDOM_ROOT_PASSWORD=true
+    volumes:
+    - ./data/mysql:/var/lib/mysql
+    networks:
+      new:
+        aliases:
+          - database
+
+networks:
+  new:
+
+
